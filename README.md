@@ -1,6 +1,7 @@
 # SFML Ray Casting
 
 A 2D Ray Casting Simulator built with SFML in C++
+
 You can draw walls and simulator how you walls would block a light source.
 
 Download: https://github.com/ansonk4/RayCastingWithSFML/releases/tag/v1.0.0
