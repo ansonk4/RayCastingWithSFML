@@ -23,7 +23,7 @@ void Game::initWindow()
 {
 	this->videoMode.height = window_height;
 	this->videoMode.width = window_width;
-	this->window = new sf::RenderWindow(this->videoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close);
+	this->window = new sf::RenderWindow(this->videoMode, "RayCastingWithSFML", sf::Style::Titlebar | sf::Style::Close);
 	this->window->setFramerateLimit(60);
 }
 
