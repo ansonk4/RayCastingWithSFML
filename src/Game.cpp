@@ -8,15 +8,15 @@ void Game::initVariables()
 	this->drawing = true;
 	std::vector<std::vector<wall>> temp (30, std::vector<wall> (30));
 	this->walls = temp;
-
+	this->font.loadFromFile("font/LEMONMILK-Light.otf");
 }
 
-void Game::initFont()
+void Game::initText(sf::Text& text, float x, float y)
 {
-	this->font.loadFromFile("font/LEMONMILK-Light.otf");
-	this->text.setFont(this->font);
-	this->text.setCharacterSize(20);
-	this->text.setFillColor(sf::Color::Cyan);
+	text.setFont(this->font);
+	text.setCharacterSize(20);
+	text.setFillColor(sf::Color::Cyan);
+	text.setPosition(sf::Vector2f(x,y));
 }
 
 void Game::initWindow()
@@ -214,11 +214,31 @@ void Game::updateMousePositions()
 
 void Game::updateText()
 {
+	std::stringstream ss;	
 	if (drawing) 
-		this->text.setString("Drawing Mode");
+		ss << "Drawing Mode\n" << "Press 2 to switch mode\n" << "Press 3 to clear";
 	else
-		this->text.setString("Lighting Mode");
+		ss << "Lighting Mode\n" << "Press 1 to switch mode\n" << "Press 3 to clear\n" << "Hold Q to show light rays\n";
+		
+	this->leftText.setString(ss.str());
+
+	ss.str(std::string());
+	ss << "Rays Count: ";
+	if (drawing) 
+		ss << 0;
+	else 
+		ss << this->rays.size() + 1;
+	ss << "\nWalls Count: ";
+	
+	int wallCount = 0;
+	for (auto row : walls)
+		for (auto cell : row)
+			if (cell.isExist())
+				wallCount++;
+	ss << wallCount;
+	this->rightText.setString(ss.str());
 }
+
 void Game::pollEvents()
 {
 	while (this->window->pollEvent(this->ev)) {
@@ -315,7 +335,8 @@ Game::Game()
 {
 	this->initVariables();
 	this->initWindow();
-	this->initFont();
+	this->initText(this->leftText, 0, 0);
+	this->initText(this->rightText, 705, 0);
 }
 
 Game::~Game()
@@ -348,7 +369,8 @@ void Game::render()
 	this->displayRays();
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 		this->displayLightArea();
-	this->window->draw(this->text);
+	this->window->draw(this->leftText);
+	this->window->draw(this->rightText);
 	this->window->display();
 }
 

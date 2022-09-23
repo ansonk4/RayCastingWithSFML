@@ -5,6 +5,7 @@
 
 #include <cmath>
 #include <set>
+#include <sstream>
 
 class Game
 {
@@ -31,12 +32,13 @@ private:
 	
 	// font
 	sf::Font font;
-	sf::Text text;
+	sf::Text leftText;
+	sf::Text rightText;
 
 	// init
 	void initVariables();
 	void initWindow();
-	void initFont();
+	void initText(sf::Text& text, float x, float y);
 
 	// game action
 	std::pair<int,int> calculateWallPos(sf::Vector2i pos);
